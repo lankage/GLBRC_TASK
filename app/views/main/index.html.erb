@@ -1,0 +1,27 @@
+<h1>Applications</h1>
+<h2><%= current_user.login %></h2>
+
+
+<% if @apps.blank? %>
+<p>There are not any Applications currently selected.</p>
+<% else %>
+<p>User selected applications:</p>
+<table><tr>
+<% @applications.each do |a| %>
+    <td style="background-color:<%= a.color %> ; height: 200px; width: 200px;"><a href="#" title="<%= a.description %>"><h3><%= a.name %> </h3><br />
+    <h3><%= a.description %></h3></a> 
+    <%= form_tag :action => 'remove' do %>
+    
+    <input type="hidden" name="appremove" value="<%= a.id %>">
+    <%= submit_tag "Remove App" %>
+    <% end -%>
+    </td>
+<% end %>   
+</tr></table> 
+
+<% end %>
+<%= form_tag :action => 'add' do %>
+<p><%= collection_select(:application, :application_id, @all_applications, :id, :name, prompt: true) %></p>
+<label for = "application_id">Available Applications</label><br/>
+<%= submit_tag "Add App" %>
+<% end -%>
